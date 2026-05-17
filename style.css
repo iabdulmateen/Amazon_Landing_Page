@@ -1,0 +1,449 @@
+/* =========================================================================
+   1. GLOBAL SYSTEM RESETS & VARIABLE CONFIGURATIONS
+   ========================================================================= */
+:root {
+    --amazon-bg-dark: #131921;       /* Upper Nav Belt Theme Color */
+    --amazon-bg-light: #232f3e;      /* Lower Main Nav Bar Theme Color */
+    --amazon-accent-yellow: #febd69;  /* Primary Search Trigger Default State */
+    --amazon-accent-orange: #f3a847;  /* Primary Search Trigger Hover State */
+    --amazon-text-white: #ffffff;
+    --amazon-text-gray: #a7acb2;
+    --body-bg-gray: #eaeded;
+    --card-bg-white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+body {
+    background-color: var(--body-bg-gray);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* =========================================================================
+   2. ACCESSIBILITY ASSISTANT PANEL STYLES
+   ========================================================================= */
+.nav-assistant {
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 2px solid var(--amazon-accent-orange);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-assistant-heading {
+    font-size: 14px;
+    color: #111;
+}
+
+.nav-assistant-links-container {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+}
+
+.nav-assistant-link-item {
+    color: #007185;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.nav-assistant-link-item:hover {
+    text-decoration: underline;
+    color: #c45500;
+}
+
+.shortcut-name {
+    font-weight: bold;
+}
+
+/* =========================================================================
+   3. MAIN HEADER & NAVBAR LAYOUT ENGINE
+   ========================================================================= */
+#navbar-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+}
+
+/* Row 1: Upper Nav Belt Core Framework */
+#nav-belt {
+    background-color: var(--amazon-bg-dark);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    position: relative;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Amazon Brand Sprites Configurations */
+#nav-logo {
+    padding: 2px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo-link {
+    display: block;
+    width: 110px;
+    height: 35px;
+    position: relative;
+    /* Static fallback global brand anchor sprite routing mapping asset placeholder */
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -10px -51px;
+}
+
+/* Ingress Location Anchor Slot Styles */
+#nav-global-location-slot {
+    margin-left: 8px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+#nav-global-location-slot:hover {
+    border-color: var(--amazon-text-white);
+}
+
+#nav-global-location-popover-link {
+    display: flex;
+    align-items: center;
+    color: var(--amazon-text-white);
+    text-decoration: none;
+}
+
+#nav-packard-glow-loc-icon {
+    width: 15px;
+    height: 18px;
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -12px -338px;
+    margin-top: 8px;
+}
+
+#glow-ingress-block {
+    display: flex;
+    flex-direction: column;
+    margin-left: 4px;
+}
+
+#glow-ingress-line1 {
+    font-size: 12px;
+    color: var(--amazon-text-gray);
+    line-height: 14px;
+}
+
+#glow-ingress-line2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--amazon-text-white);
+    line-height: 15px;
+}
+
+/* =========================================================================
+   4. CENTRAL FLEXIBLE SEARCH BAR FRAMEWORK
+   ========================================================================= */
+#nav-fill-search {
+    flex-grow: 1;
+    margin: 0 15px;
+}
+
+.nav-searchbar {
+    display: flex;
+    background-color: var(--amazon-text-white);
+    height: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+/* Active Highlight Focus State Matrix Glow */
+.nav-searchbar:focus-within {
+    box-shadow: 0 0 0 2px #ff9900, 0 0 0 3px rgba(255, 153, 0, 0.5);
+}
+
+/* Left Facade: Dropdown Trigger Scope */
+.nav-search-scope {
+    background-color: #e6e6e6;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    cursor: pointer;
+    border-right: 1px solid #ccc;
+    position: relative;
+}
+
+.nav-search-scope:hover {
+    background-color: #d4d4d4;
+}
+
+.nav-search-label {
+    font-size: 12px;
+    color: #555;
+    margin-right: 5px;
+}
+
+.nav-search-dropdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Center Field: Input Bar TextField element */
+.nav-search-field {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.nav-search-field input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-size: 15px;
+    color: #111;
+}
+
+/* Right Field: Trigger Submit Target Button */
+.nav-search-submit {
+    background-color: var(--amazon-accent-yellow);
+    width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.nav-search-submit:hover {
+    background-color: var(--amazon-accent-orange);
+}
+
+#nav-search-submit-button {
+    border: none;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    font-size: 0; /* Standard production hidden text routing rules overrides link layout */
+    cursor: pointer;
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -10px -290px;
+}
+
+/* =========================================================================
+   5. NAVIGATION UTILITIES (Tools, Profile, Orders, Basket Cart)
+   ========================================================================= */
+#nav-tools .nav-a {
+    color: var(--amazon-text-white);
+    text-decoration: none;
+    padding: 4px 8px;
+    margin: 0 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 44px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+#nav-tools .nav-a:hover {
+    border-color: var(--amazon-text-white);
+}
+
+.nav-line-1 {
+    font-size: 12px;
+    color: var(--amazon-text-gray);
+    line-height: 14px;
+}
+
+.nav-line-2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--amazon-text-white);
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Flag Identifiers System */
+.icp-nav-flag {
+    display: inline-block;
+    width: 24px;
+    height: 18px;
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -10px -130px;
+    margin-right: 5px;
+}
+
+/* Basket Cart Core Engine Layout */
+#nav-cart {
+    flex-direction: row !important;
+    gap: 5px;
+}
+
+#nav-cart-count-container {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+.nav-cart-count {
+    color: #f08804;
+    font-weight: bold;
+    font-size: 16px;
+    position: absolute;
+    left: 12px;
+    top: -4px;
+}
+
+.nav-cart-icon {
+    width: 38px;
+    height: 26px;
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -10px -340px;
+}
+
+/* Row 2: Secondary Toolbar Navigation Category Links System */
+#nav-main {
+    background-color: var(--amazon-bg-light);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+#nav-hamburger-menu {
+    color: var(--amazon-text-white);
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+#nav-hamburger-menu:hover {
+    border-color: var(--amazon-text-white);
+}
+
+.hm-icon {
+    display: inline-block;
+    width: 17px;
+    height: 14px;
+    background: url('https://m.media-amazon.com/images/G/01/gno/sprites/nav-sprite-global-1x-reorg-privacy._CB779528203_.png') no-repeat -10px -245px;
+    margin-right: 5px;
+}
+
+.nav-ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-li .nav-a {
+    color: var(--amazon-text-white);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 8px;
+    display: block;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+.nav-li .nav-a:hover {
+    border-color: var(--amazon-text-white);
+}
+
+/* =========================================================================
+   6. CORE CONTENT PRESENTATION PORTAL (BXC RESPONSIVE MATRIX GRID)
+   ========================================================================= */
+.octopus-page-style {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+/* Adaptive Rows Framework */
+._Y29ud_bxcGridRow_Zu5i8 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 20px;
+}
+
+/* Structural Column Breaks Grid Components */
+._Y29ud_bxcGridColumn_J5gfU {
+    padding: 0 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Width Percentage Matrices */
+._Y29ud_bxcGridColumn12Of12_1hOQf { width: 100%; }         /* Full-width Main Hero Canvas */
+._Y29ud_bxcGridColumn4Of12_3Z7lO { width: 33.33333%; }     /* Standard 3-Card Columns Array */
+._Y29ud_bxcGridColumn3Of12_3gOgc { width: 25%; }          /* Multi-faceted 4-Card Elements Array */
+
+/* Inner Card Presentations Controls */
+._Y29ud_bxcGridContent_3IC_p {
+    background-color: var(--card-bg-white);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cards-view {
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.cards-view:hover {
+    transform: translateY(-2px);
+}
+
+/* Image scaling and bounding fields limits */
+._Y29ud_bxcGridImage_mukPG img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Overlay Text Aesthetics Layer placement labels */
+._Y29ud_bxcGridOverlayContent_1jspl {
+    margin-top: 12px;
+    text-align: center;
+}
+
+._Y29ud_bxcGridText_3AiaV p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #111;
+}
+
+.Spec-margin {
+    margin-top: 15px;
+}
+
+/* =========================================================================
+   7. DYNAMIC MAP LINKS RESOURCE GLOBAL FOOTER SYSTEM
+   ================================
