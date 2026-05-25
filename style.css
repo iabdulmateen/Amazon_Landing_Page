@@ -840,7 +840,9 @@ a {
   }
 }
 @media (max-width: 768px) {
-  .add-icon, .nav-language, .panel-ops {
+  .add-icon,
+  .nav-language,
+  .panel-ops {
     display: none !important;
   }
   .nav-search {
@@ -848,7 +850,7 @@ a {
     margin: 5px 10px;
   }
   .sidebar {
-    width: 80%; 
+    width: 80%;
   }
   .foot-panel2 {
     height: auto;
@@ -856,7 +858,7 @@ a {
     align-items: center;
     padding: 20px;
   }
-  
+
   ul {
     text-align: center;
     margin-bottom: 20px;
@@ -869,8 +871,8 @@ a {
     padding: 10px;
   }
   .box {
-    width: 95%; 
-    height: auto; 
+    width: 95%;
+    height: auto;
   }
   .slider-container {
     height: 180px;
