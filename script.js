@@ -1,86 +1,60 @@
-/**
- * =========================================================================
- * AMAZON ENGINE CLONE - INTERACTIVE INTERFACE LOGIC
- * =========================================================================
- */
+var slides = document.querySelectorAll(".slider-container a");
+var current = 0;
 
-document.addEventListener("DOMContentLoaded", function () {
-    "use strict";
+function showSlide(i) {
+  slides.forEach((slide, index) => {
+    slide.classList.toggle("active", index === i);
+  });
+}
 
-    // --- 1. SMOOTH SCROLL BACK TO TOP CONTROL ---
-    const backToTopButton = document.getElementById("navBackToTop");
+function nextSlide() {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}
 
-    if (backToTopButton) {
-        backToTopButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            // Poore viewport panel ko browser screen ke top par smooth move karega
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-    }
+function prevSlide() {
+  current = (current - 1 + slides.length) % slides.length;
+  showSlide(current);
+}
 
-    // --- 2. SEARCH BAR OUTLINE GLOW INTERACTION ---
-    const searchInput = document.getElementById("twotabsearchtextbox");
-    const searchForm = document.getElementById("nav-search-bar-form");
+setInterval(nextSlide, 3000);
+showSlide(current);
 
-    if (searchInput && searchForm) {
-        const outerSearchBar = searchInput.closest(".nav-searchbar");
+const searchInput = document.getElementById("search-input");
+const searchIcon = document.getElementById("search-icon");
 
-        // Focus state trigger: Jab user input active karega
-        searchInput.addEventListener("focus", function () {
-            if (outerSearchBar) {
-                outerSearchBar.style.boxShadow = "0 0 0 2px #ff9900, 0 0 0 3px rgba(255, 153, 0, 0.5)";
-            }
-        });
+searchInput.addEventListener("keydown", function (event) {
+  if (event.code === "Enter") {
+    searchAmazon();
+  }
+});
 
-        // Blur state trigger: Jab click input box se bahar hoga
-        searchInput.addEventListener("blur", function () {
-            if (outerSearchBar) {
-                outerSearchBar.style.boxShadow = "none";
-            }
-        });
-    }
+searchIcon.addEventListener("click", function () {
+  searchAmazon();
+});
 
-    // --- 3. DROP-DOWN SELECTION SYNC FACADE ---
-    const searchDropdown = document.getElementById("searchDropdownBox");
-    const searchFacadeLabel = document.getElementById("nav-search-label-id");
+function searchAmazon() {
+  const input = searchInput.value.trim();
+  if (input) {
+    const query = encodeURIComponent(input);
+    window.location.href = `https://www.amazon.com/s?k=${query}`;
+  }
+}
 
-    if (searchDropdown && searchFacadeLabel) {
-        searchDropdown.addEventListener("change", function () {
-            // Dropdown mein category change hote hi screen text node ko sync karega
-            const currentSelectedText = this.options[this.selectedIndex].text;
-            searchFacadeLabel.textContent = currentSelectedText;
-        });
-    }
+function openSidebar() {
+  document.getElementById("sidebar").classList.add("show");
+  document.getElementById("overlay").classList.add("show");
+  document.getElementById("closeBtn").style.display = "flex";
+}
 
-    // --- 4. DUMMY OVERLAY Dimmer HANDLER ---
-    const hamburgerMenu = document.getElementById("nav-hamburger-menu");
-    const navCoverOverlay = document.getElementById("nav-cover");
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("show");
+  document.getElementById("overlay").classList.remove("show");
+  document.getElementById("closeBtn").style.display = "none";
+}
 
-    if (hamburgerMenu && navCoverOverlay) {
-        hamburgerMenu.addEventListener("click", function (e) {
-            e.preventDefault();
-            // Background screen dim light background overlay active toggle
-            if (navCoverOverlay.style.display === "none" || !navCoverOverlay.style.display) {
-                navCoverOverlay.style.display = "block";
-                navCoverOverlay.style.opacity = "0.6";
-                navCoverOverlay.style.backgroundColor = "#000";
-                navCoverOverlay.style.position = "fixed";
-                navCoverOverlay.style.top = "0";
-                navCoverOverlay.style.left = "0";
-                navCoverOverlay.style.width = "100%";
-                navCoverOverlay.style.height = "100%";
-                navCoverOverlay.style.zIndex = "99";
-            } else {
-                navCoverOverlay.style.display = "none";
-            }
-        });
-
-        // Overlay par click karne se fade shield wapas remove ho jaye
-        navCoverOverlay.addEventListener("click", function () {
-            this.style.display = "none";
-        });
-    }
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    closeSidebar();
+  }
 });
